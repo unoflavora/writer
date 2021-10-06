@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = '/api'
+const baseUrl = 'http://localhost:3001/api'
 
 function getList() {
   const data = axios.get(`${baseUrl}/list`)

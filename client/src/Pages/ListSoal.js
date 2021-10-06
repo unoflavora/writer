@@ -75,10 +75,10 @@ export default function ListSoal() {
             <select 
               onChange={(e) => setMateri(e.target.value)}
               className='m-2 py-1 pl-5 border-2 truncate font-poppins text-lg rounded-2xl'>
-              <option disabled value={''} >Pilih Materi</option>
+              <option value={''} >Pilih Materi</option>
               {loading ? 
                 <option disabled>loading...</option> :
-                Object.keys(list[matpel]).length === 0 ? 
+                Object.keys(list[matpel]).length < 1 ? 
                 <option className='text-red-500' disabled>Tidak ada materi!</option> : 
                 Object.keys(list[matpel])
                 .map((materi, index) => {
