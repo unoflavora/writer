@@ -4,7 +4,7 @@ import IdSoal from "../components/IdSoal";
 import Editor from "../components/Editor";
 import Status from "../components/Status";
 import Message from "../components/Message";
-import { useEffect, useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
 import Server from '../services/server'
 
 export default function FormSoal({

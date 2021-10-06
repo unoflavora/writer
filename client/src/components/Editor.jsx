@@ -23,7 +23,7 @@ export default function EditorJS(props) {
         external_plugins: {
           'tiny_mce_wiris': 'https://cdn.jsdelivr.net/npm/@wiris/mathtype-tinymce4@7.27.0/plugin.min.js'
         },
-        tinydrive_token_provider: '/jwt',
+        tinydrive_token_provider: '/api/jwt',
       }}
       
     />
