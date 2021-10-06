@@ -45,9 +45,7 @@ export default function ListSoal() {
       setIsOpen(false)
     },2000)
   }
-
-  console.log(list)
-  
+    
   const matpels = {
     'Biologi': <BiDna/>,
     'Fisika': <BiRocket/>,
@@ -80,7 +78,7 @@ export default function ListSoal() {
               <option value={''} >Pilih Materi</option>
               {loading ? 
                 <option disabled>loading...</option> :
-                Object.keys(list[matpel]).length < 1 ? 
+                Object.keys(list[matpel]).length === 0 ? 
                 <option className='text-red-500' disabled>Tidak ada materi!</option> : 
                 Object.keys(list[matpel])
                 .map((materi, index) => {
@@ -91,7 +89,7 @@ export default function ListSoal() {
             </select>
           </div>
           <div className='row-span-11 bg-purple-50 text-black  '>
-           {materi && !loading && list[matpel].hasOwnProperty(materi) ?
+           {materi && !loading && list[matpel].hasOwnProperty(materi) && Object.keys(list[matpel]).length !== 0 ?
             Object.keys(list[matpel][materi]).map((subMateri) => {
               return(
                 <div className='mt-3'>
