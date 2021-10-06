@@ -78,14 +78,15 @@ export default function ListSoal() {
               <option value={''} >Pilih Materi</option>
               {loading ? 
                 <option disabled>loading...</option> :
-                Object.keys(list[matpel]).length < 1 ? 
-                <option className='text-red-500' disabled>Tidak ada materi!</option> : 
-                Object.keys(list[matpel])
-                .map((materi, index) => {
-                  return (
-                    <option value={materi} key={index}>{materi}</option>
-                  )
-                })}
+                list[matpel] ?
+                  Object.keys(list[matpel]).length < 1 ? 
+                  <option className='text-red-500' disabled>Tidak ada materi!</option> : 
+                  Object.keys(list[matpel])
+                  .map((materi, index) => {
+                    return (
+                      <option value={materi} key={index}>{materi}</option>
+                    )
+                }): <option disabled>loading...</option>}
             </select>
           </div>
           <div className='row-span-11 bg-purple-50 text-black  '>
