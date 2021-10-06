@@ -4,9 +4,6 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.3.0",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
     "@tinymce/tinymce-react": "^3.12.6",
     "@wiris/mathtype-tinymce4": "^7.27.0",
     "axios": "^0.22.0",
@@ -17,7 +14,10 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-slideshow-image": "^3.5.1",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "autoprefixer": "^9.8.7",
+    "postcss": "^7.0.38",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16"
   },
   "proxy": "http://localhost:3001",
   "scripts": {
@@ -45,8 +45,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.7",
-    "postcss": "^7.0.38",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16"
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10"
   }
 }
