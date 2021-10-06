@@ -4,7 +4,7 @@ export default function EditorJS(props) {
   return (
     <Editor 
       {...props}
-      apiKey='8m958uwih841n3zk48jykzh42u6l3b9zn5kpudp5cyk4ax3s'
+      apiKey='wq1y26f7fjwtm2n5ovqw4c2egh0tl1bend35s56qt33anui5'
       init={{
         directionality : "ltr",
         height: 400,
