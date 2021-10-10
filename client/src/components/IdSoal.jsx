@@ -1,6 +1,6 @@
 export default function IdSoal({allData, setAllData, mataPelajaran}) {
   return(
-    <div className='font-poppins font-semibold grid gap-5 bg-gray-100 p-7'>
+    <div className='text-base font-poppins font-semibold grid gap-5 bg-gray-100 p-7'>
     <div className='flex flex-col'>
     <label for='mataPelajaran '>MATA PELAJARAN</label>
     <select

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const KodeDB = require('./models/kode')
+const KodeDB = require('../models/kode')
 
 router.post('/', async (request, response) => {
   const body = request.body

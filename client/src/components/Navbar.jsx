@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom'
 
 export default function Navbar(props) {
   const [view, setView] = useState('/')
+  const [show, setShow] = useState(true)
   const location = useLocation()
 
   useEffect(() => {
@@ -33,8 +34,17 @@ export default function Navbar(props) {
           </li>
           </Link>
         </div>
-        <div className='justify-self-end self-center xl:self-end xl:mb-5 border-4 w-16 xl:w-20 h-16 xl:h-20 rounded-full'>
-          
+        <div className='relative justify-self-end xl:self-end flex flex-col justify-center'>
+          <img 
+          onClick={() => setShow(!show)}
+          className='p-1 self-center xl:mb-5 xl:mr-2 border-4 w-16 h-16 rounded-full' src={props.user.picture} alt={props.user.name} />
+          <button 
+            className={`${show ? 'opacity-0' : 'opacity-100'} absolute transition-opacity duration-500 ease-in-out 
+              -bottom-10 xl:-left-1 xl:-top-14 xl:bottom-auto px-2 bg-red-300 hover:bg-red-400 xl:mb-5 rounded-xl
+               font-poppins font-semibold text-white `}
+            onClick={() => props.logout({ returnTo: window.location.origin })}>
+            Log Out
+          </button>
         </div>
       </ul>
     </nav>

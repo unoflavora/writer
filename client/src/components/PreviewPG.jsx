@@ -15,7 +15,7 @@ export default function PreviewPG({allData, setAllData}) {
           onClick={() => {
           setAllData({...allData, jawaban:pg})
         }}>
-          <p className='col-span-1 bg-gray-200 h-full text-xl font-semibold flex items-center justify-center '>{abjad[index]}</p>
+          <p className='col-span-1 bg-gray-200 h-full text-lg font-semibold flex items-center justify-center '>{abjad[index]}</p>
 
           <div 
             className={`break-words text-base text-left flex items-center h-full w-full col-span-11`}
@@ -25,7 +25,7 @@ export default function PreviewPG({allData, setAllData}) {
 
         <div className='bg-red-200 font-poppins font-bold h-full'>
           <button
-            className='h-full w-full text-xl font-semibold'
+            className='h-full w-full text-lg font-semibold'
             onClick={(event) => {
             event.preventDefault()
             setAllData({...allData, 

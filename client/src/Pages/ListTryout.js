@@ -1,4 +1,4 @@
-import Server from '../services/server'
+import Server from '../services/tryout'
 import { useEffect, useState } from 'react'
 import { BiDna, BiRocket } from "react-icons/bi";
 import { GiMaterialsScience } from "react-icons/gi";
@@ -7,9 +7,9 @@ import Card from '../components/Card';
 import ModalMsg from '../components/ModalMsg';
 
 export default function ListSoal() {
-  const [list, setList] = useState()
   const [matpel, setMatpel] = useState('Biologi')
   const [materi, setMateri] = useState()
+  const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -26,10 +26,12 @@ export default function ListSoal() {
     setLoading(true)
     async function getData() {
       const data = await Server.getAll(matpel)
+      console.log(data)
       setList(data)
       setLoading(false)
     }
     getData()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matpel, modalIsOpen])
 
   const handleDelete = async (soal) => {
@@ -78,37 +80,39 @@ export default function ListSoal() {
               <option value={''} >Pilih Materi</option>
               {loading ? 
                 <option disabled>loading...</option> :
-                list[matpel] ?
-                  Object.keys(list[matpel]).length < 1 ? 
+                list ?
+                  list.length < 1 ? 
                   <option className='text-red-500' disabled>Tidak ada materi!</option> : 
-                  Object.keys(list[matpel])
-                  .map((materi, index) => {
-                    return (
-                      <option value={materi} key={index}>{materi}</option>
-                    )
-                }): <option disabled>loading...</option>}
+                  list.map((soal) => {
+                    console.log(soal)
+                    if(soal.materi) {
+                      return ( 
+                        soal.materi
+                      )
+                    } else {
+                      return null
+                    }}).filter((value, index, self) => self.indexOf(value) === index)
+                    .map((mat, index) =>  {
+                      if(mat) {
+                        return (
+                          <option value={mat} key={index}>{mat}</option>
+                        )
+                      } else {
+                        return null
+                      }
+                    })
+                    : <option disabled>loading...</option>}
             </select>
           </div>
           <div className='row-span-11 bg-purple-50 text-black  '>
-           {materi && !loading && list[matpel].hasOwnProperty(materi) ?
-            Object.keys(list[matpel][materi]).map((subMateri) => {
-              return(
-                <div className='mt-3'>
-                  <div className='flex justify-center items-center'>
-                    <h1 className='bg-ungu-gelap text-white px-3'>{subMateri}</h1>
-                  </div>
-                {Object.keys(list[matpel][materi][subMateri]).map((soal) => {
-                  const konten = list[matpel][materi][subMateri][soal]
-                  return(
-                    <Card 
-                      handleDelete={() => handleDelete(konten)}                       konten={konten}/>
-                  )
-                })}
-                </div>
-              )
+           {materi && !loading && list ?
+            list.filter((soal) => soal.materi === materi).map((konten) => {
+              return <Card handleDelete={() => handleDelete(konten)}
+               konten={konten}
+               tryout/> 
             }) : 
-            <div>Silahkan Pilih Materi</div> 
-          }
+              <div>Silahkan Pilih Materi</div> 
+            }
           </div>
         </div>
       </div>

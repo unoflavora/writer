@@ -3,21 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.8.0",
     "@craco/craco": "^6.3.0",
     "@tinymce/tinymce-react": "^3.12.6",
     "@wiris/mathtype-tinymce4": "^7.27.0",
+    "autoprefixer": "^9.8.7",
     "axios": "^0.22.0",
+    "postcss": "^7.0.38",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-loading": "^2.0.3",
     "react-modal": "^3.14.3",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-slideshow-image": "^3.5.1",
-    "web-vitals": "^1.0.1",
-    "autoprefixer": "^9.8.7",
-    "postcss": "^7.0.38",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16",
+    "web-vitals": "^1.0.1"
   },
   "proxy": "http://localhost:3001",
   "scripts": {

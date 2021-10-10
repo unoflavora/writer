@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Server from './services/server';
+import Tryout from './services/tryout'
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,15 +9,18 @@ import {
 import Modal from './components/Modal';
 import ModalSub from './components/ModalSub'
 import Navbar from './components/Navbar';
-import ListSoal from './Pages/ListSoal';
+import List from './Pages/List';
 import tipeSoal from './services/tipeSoal';
 import FormSoal from './Pages/FormSoal';
 import FormUpdate from './Pages/FormUpdate'
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
+  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } = useAuth0();
   const [PG, setPG] = useState('')
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpenSub, setIsOpenSub] = useState(false);
+  const [uploading, setUploading] = useState(false)
   const [view, setView] = useState('Soal')
   const [tipePG, setTipePG] = useState('pg')
   const [mataPelajaran, setMataPelajaran] = useState({
@@ -39,6 +43,7 @@ function App() {
     pilihanGanda: [],
     jawaban: '',
     pembahasan:'',
+    tryout: false,
     try: 0,
     correct: 0
   })
@@ -60,8 +65,6 @@ function App() {
     setAllData({...allData, pilihanGanda:tipeSoal[tipePG]})
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tipePG])
-
-
 
   const script = document.createElement('script');
 
@@ -136,21 +139,17 @@ function App() {
         })
       } else {
         try {
-          await Server.post(allData)      
+          setUploading(true)
+          if(allData.tryout) {
+            await Tryout.post(allData)
+          } else {
+            await Server.post(allData)
+          }
+          setUploading(false)      
           setMessage({
             message: 'Berhasil mensubmit!',
             success: true,
             error: false
-          })
-          setAllData({...allData,
-            kode: '',
-            soal: '',
-            tipeJawaban:'',
-            pilihanGanda: [],
-            jawaban: '',
-            pembahasan:'',
-            try: 0,
-            correct: 0
           })
         } catch(e) {
           console.log(e)
@@ -178,7 +177,20 @@ function App() {
     }, 5000)
   }
 
+  if(isLoading) {
+    return <div className='flex justify-center items-center text-xl font-bold font-poppins w-screen h-screen'>
+      Loading...
+    </div>
+  }
+
+  if(!isAuthenticated) {
+    return (
+      loginWithRedirect()
+    )
+  }
+
   return (
+    isAuthenticated && (
     <Router>
       <div className='xl:overflow-y-hidden'>
         <Modal 
@@ -195,18 +207,20 @@ function App() {
           modalIsOpen={modalIsOpenSub}
           addsubMateri={addsubMateri}
         />
-      <div className='grid-rows-2 xl:grid lg:grid-cols-16 lg:grid-rows-1 h-screen '>
+      <div className='grid-rows-2 xl:grid lg:grid-cols-16 lg:grid-rows-1 h-screen'>
         <div className='bg-gray-50 col-span-1 flex justify-center'>
-          <Navbar/>
+          <Navbar logout={logout} user={user}/>
         </div>
         <Switch>
           <Route path='/list'>
-            <ListSoal/>
+            <List/>
           </Route>
-          <Route path='/edit/:matpel/:materi/:subMateri/:kode'
+
+          <Route exact path='/edit/tryout/:kode'
             render={(props) =>
             <FormUpdate 
               {...props}
+              tryout = {true}
               allData = {allData}
               mataPelajaran = {mataPelajaran} 
               view = {view} 
@@ -218,6 +232,29 @@ function App() {
               editView = {editView}
               setPG = {setPG}
               setTipePG = {setTipePG}
+              uploading = {uploading}
+              setUploading = {setUploading}
+            />}
+          />
+
+          <Route exact path='/edit/:matpel/:materi/:subMateri/:kode'
+            render={(props) =>
+            <FormUpdate 
+              {...props}
+              tryout = {false}
+              allData = {allData}
+              mataPelajaran = {mataPelajaran} 
+              view = {view} 
+              message = {message}
+              tipePG = {tipePG} 
+              addPG = {addPG} 
+              setAllData = {setAllData}
+              handleSubmit = {handleSubmit} 
+              editView = {editView}
+              setPG = {setPG}
+              setTipePG = {setTipePG}
+              uploading = {uploading}
+              setUploading = {setUploading}
             />}
           />
             
@@ -234,13 +271,14 @@ function App() {
               editView = {editView}
               setPG = {setPG}
               setTipePG = {setTipePG}
+              uploading = {uploading}
             />
           </Route>         
         </Switch>
       </div>
       </div>
     </Router>
-  );
+  ));
 }
 
 export default App

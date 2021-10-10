@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const SoalDB = require('./models/matpel')
+const SoalDB = require('../models/matpel')
 
 router.post('/all', (request, response) => {
   const body = request.body

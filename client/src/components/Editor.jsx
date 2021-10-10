@@ -7,7 +7,7 @@ export default function EditorJS(props) {
       apiKey='wq1y26f7fjwtm2n5ovqw4c2egh0tl1bend35s56qt33anui5'
       init={{
         directionality : "ltr",
-        height: 400,
+        height: 350,
         menubar: 'insert | format',
         plugins: [
           'tinydrive advlist autolink lists link image charmap print preview anchor',
