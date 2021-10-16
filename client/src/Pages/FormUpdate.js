@@ -112,11 +112,21 @@ export default function FormSoal({
                 {allData.date ? <Status published uploading={uploading}/> : <Status uploading={uploading}/>}
                 {message.error || message.success ?
                   <Message message={message}/>: null}
-                 <div 
+                {allData.tryout ? <div className='items-center border-2'>
+                  <select
+                    value={allData.kesulitan}
+                    onChange={(event) => setAllData({...allData, kesulitan:event.target.value})} 
+                    name='kesulitan' id='kesulitan' className='py-2 rounded-lg'>                 
+                    <option value='1'>Sulit</option>
+                    <option value='0.5'>Sedang</option>
+                    <option value='0.3'>Mudah</option>
+                  </select>
+                </div> : null}
+                 <button type='button' 
                   className={`w-1/4 mr-7 lg:w-24 flex self-end justify-center text-white font-poppins items-center h-full rounded-xl ${allData.tryout? 'bg-yellow-500' : 'bg-blue-500'} px-4`}
                   onClick={() => setAllData({...allData, tryout:!allData.tryout})}>
                   {allData.tryout? 'TO' : 'MATERI'}
-                </div>
+                </button>
               </div>
             </form>
     </>

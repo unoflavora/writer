@@ -27,6 +27,7 @@ router.post('/soal', async (request, response) => {
 })
 
 router.post('/submit', async (request, response) => {
+  let soal = request.body.soal
   let exist = await SoalDB.exists({kode:soal.kode})
   if (exist) {
     SoalDB.findOneAndUpdate({kode:soal.kode}, soal).then(res => {

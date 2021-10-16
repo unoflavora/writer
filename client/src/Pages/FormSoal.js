@@ -94,15 +94,30 @@ export default function FormSoal({
                     onEditorChange={(value) => setAllData({...allData, pembahasan:value})}
                   />
                 </div>
-              <div className='flex flex-col justify-between xl:flex-row'>
+              <div className='flex flex-col gap-5 justify-between xl:flex-row'>
                 {allData.date ? <Status published uploading={uploading}/> : <Status uploading={uploading}/>}
                 {message.error || message.success ?
                   <Message message={message}/>: null}
-                 <div 
-                  className={`w-1/4 mr-7 lg:w-24 flex self-end justify-center text-white font-poppins items-center h-full rounded-xl ${allData.tryout? 'bg-yellow-500' : 'bg-blue-500'} px-4`}
+                <div className='flex lg:gap-10'>
+                {allData.tryout ? 
+                  <select
+                    className='border-2 py-2 rounded-lg'
+                    value={allData.kesulitan}
+                    onChange={(event) => setAllData({...allData, kesulitan:event.target.value})} 
+                    name='kesulitan' id='kesulitan'>                 
+                    <option value='' default>Kesulitan</option>
+                    <option value='1'>Sulit</option>
+                    <option value='0.5'>Sedang</option>
+                    <option value='0.3'>Mudah</option>
+                  </select>
+                 : null}
+                 <button type='button' 
+                  className={`w-1/4 mr-7 mb-5 py-2 lg:py-0 lg:mb-0 lg:w-24 flex self-end justify-center text-white font-poppins items-center h-full rounded-xl ${allData.tryout? 'bg-yellow-500' : 'bg-blue-500'} px-4`}
                   onClick={() => setAllData({...allData, tryout:!allData.tryout})}>
                   {allData.tryout? 'TO' : 'MATERI'}
+                </button>
                 </div>
+                
               </div>
             </form>
     </>
