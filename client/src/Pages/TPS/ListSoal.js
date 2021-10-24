@@ -1,15 +1,14 @@
-import Server from '../services/tryout'
+import Server from '../../services/server'
 import { useEffect, useState } from 'react'
-import { BiDna, BiRocket } from "react-icons/bi";
-import { GiMaterialsScience } from "react-icons/gi";
-import {AiOutlineCalculator} from "react-icons/ai";
-import Card from '../components/Card';
-import ModalMsg from '../components/ModalMsg';
+import Card from '../../components/Card';
+import ModalMsg from '../../components/ModalMsg';
+import { GiBrain, GiClassicalKnowledge } from 'react-icons/gi';
+import { AiFillCalculator, AiOutlineBook} from 'react-icons/ai';
 
 export default function ListSoal() {
-  const [matpel, setMatpel] = useState('Biologi')
+  const [list, setList] = useState()
+  const [matpel, setMatpel] = useState('Kemampuan Penalaran Umum')
   const [materi, setMateri] = useState()
-  const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -26,12 +25,10 @@ export default function ListSoal() {
     setLoading(true)
     async function getData() {
       const data = await Server.getAll(matpel)
-      console.log(data)
       setList(data)
       setLoading(false)
     }
     getData()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matpel, modalIsOpen])
 
   const handleDelete = async (soal) => {
@@ -49,23 +46,23 @@ export default function ListSoal() {
   }
 
   const matpels = {
-    'Biologi': <BiDna/>,
-    'Fisika': <BiRocket/>,
-    'Kimia': <GiMaterialsScience/>,
-    'Matematika': <AiOutlineCalculator/>
+    'Kemampuan Penalaran Umum': <GiBrain/>,
+    'Pengetahuan Kuantitatif': <AiFillCalculator/>,
+    'Pengetahuan dan Pemahaman Umum': <GiClassicalKnowledge/>,
+    'Kemampuan Memahami Bacaan dan Menulis': <AiOutlineBook/>
   }
 
   return (
     <div className='col-span-15 flex flex-col p-5 bg-yellow-300 overflow-y-scroll '>
       {setIsOpen ? <ModalMsg modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} message={message}/> : null}
       <div className='xl:p-5 flex flex-col'>
-        <div className='grid grid-cols-8'>
+        <div className='grid grid-cols-4'>
         {Object.keys(matpels).map(name => 
           <button 
           onClick={() => {setLoading(true); setMatpel(name); setMateri('')}}
           className={`clipPath row-span-1 font-poppins 
           ${matpel === name ? 'font-bold' : 'font-light bg-gray-100'} flex gap-2 xl:pl-4 
-          py-2 items-center bg-white`}>
+          py-2 items-center bg-white text-sm`}>
             {matpels[name]}
             {name}
           </button>
@@ -80,39 +77,37 @@ export default function ListSoal() {
               <option value={''} >Pilih Materi</option>
               {loading ? 
                 <option disabled>loading...</option> :
-                list ?
-                  list.length < 1 ? 
+                list[matpel] ?
+                  Object.keys(list[matpel]).length < 1 ? 
                   <option className='text-red-500' disabled>Tidak ada materi!</option> : 
-                  list.map((soal) => {
-                    console.log(soal)
-                    if(soal.materi) {
-                      return ( 
-                        soal.materi
-                      )
-                    } else {
-                      return null
-                    }}).filter((value, index, self) => self.indexOf(value) === index)
-                    .map((mat, index) =>  {
-                      if(mat) {
-                        return (
-                          <option value={mat} key={index}>{mat}</option>
-                        )
-                      } else {
-                        return null
-                      }
-                    })
-                    : <option disabled>loading...</option>}
+                  Object.keys(list[matpel])
+                  .map((materi, index) => {
+                    return (
+                      <option value={materi} key={index}>{materi}</option>
+                    )
+                }): <option disabled>loading...</option>}
             </select>
           </div>
           <div className='row-span-11 bg-purple-50 text-black  '>
-           {materi && !loading && list ?
-            list.filter((soal) => soal.materi === materi).map((konten) => {
-              return <Card handleDelete={() => handleDelete(konten)}
-               konten={konten}
-               tryout/> 
+           {materi && !loading && list[matpel].hasOwnProperty(materi) ?
+            Object.keys(list[matpel][materi]).map((subMateri) => {
+              return(
+                <div className='mt-3'>
+                  <div className='flex justify-center items-center'>
+                    <h1 className='bg-ungu-gelap text-white px-3'>{subMateri}</h1>
+                  </div>
+                {Object.keys(list[matpel][materi][subMateri]).map((soal) => {
+                  const konten = list[matpel][materi][subMateri][soal]
+                  return(
+                    <Card 
+                      handleDelete={() => handleDelete(konten)}                       konten={konten}/>
+                  )
+                })}
+                </div>
+              )
             }) : 
-              <div>Silahkan Pilih Materi</div> 
-            }
+            <div>Silahkan Pilih Materi</div> 
+          }
           </div>
         </div>
       </div>

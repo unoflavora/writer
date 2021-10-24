@@ -1,6 +1,13 @@
 const router = require('express').Router();
 const SoalDB = require('../models/tryout')
 
+const TPS = {
+  'Kemampuan Penalaran Umum': 'KPU',
+  'Pengetahuan Kuantitatif': 'PK',
+  'Pengetahuan dan Pemahaman Umum': 'PPU',
+  'Kemampuan Memahami Bacaan dan Menulis': 'KBM'
+}
+
 router.post('/all', (request, response) => {
   const matpel = request.body.matpel
   SoalDB.find({'mataPelajaran': matpel}).then((res) => {
@@ -36,7 +43,12 @@ router.post('/submit', async (request, response) => {
   } else {
     try {
       let allMatpel = await SoalDB.find({'mataPelajaran': soal.mataPelajaran})
-      let code = `${soal.mataPelajaran.substring(0,3).toUpperCase()}TO${allMatpel.length + 1}`
+      const mat = 
+          Object.keys(TPS).includes(soal.mataPelajaran) ?
+          TPS[soal.mataPelajaran]
+          : soal.mataPelajaran.substring(0,3).toUpperCase()  
+      
+      let code = `${mat}TO${allMatpel.length + 1}`
       const soalBaru = new SoalDB({...soal, kode: code})
       soalBaru.save()
       response.status(200).json(soalBaru)  

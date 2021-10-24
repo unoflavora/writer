@@ -10,6 +10,7 @@ import Modal from './components/Modal';
 import ModalSub from './components/ModalSub'
 import Navbar from './components/Navbar';
 import List from './Pages/List';
+import ListTPS from './Pages/TPS/ListTPS';
 import tipeSoal from './services/tipeSoal';
 import FormSoal from './Pages/FormSoal';
 import FormUpdate from './Pages/FormUpdate'
@@ -214,6 +215,10 @@ function App() {
         <Switch>
           <Route path='/list'>
             <List/>
+          </Route>
+
+          <Route path='/listTPS'>
+            <ListTPS/>
           </Route>
 
           <Route exact path='/edit/tryout/:kode'

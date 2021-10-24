@@ -4,6 +4,8 @@ import Logo from './logo'
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom'
+import { ImCodepen } from "react-icons/im";
+
 
 export default function Navbar(props) {
   const [view, setView] = useState('/')
@@ -31,6 +33,12 @@ export default function Navbar(props) {
           <li
           className={`flex ${view === '/list' ? 'bg-blue-500 text-white' : ''}   justify-center items-center border-4 m-2 p-2 rounded-2xl`}>
           <BsFiles size={40}/>
+          </li>
+          </Link>
+          <Link to='/listTPS'>
+          <li
+          className={`flex ${view === '/listTPS' ? 'bg-blue-500 text-white' : ''}   justify-center items-center border-4 m-2 p-2 rounded-2xl`}>
+            <ImCodepen size={40}/>
           </li>
           </Link>
         </div>

@@ -2,6 +2,13 @@ import axios from 'axios'
 
 const baseUrl = '/api'
 
+const TPS = {
+  'Kemampuan Penalaran Umum': 'KPU',
+  'Pengetahuan Kuantitatif': 'PK',
+  'Pengetahuan dan Pemahaman Umum': 'PPU',
+  'Kemampuan Memahami Bacaan dan Menulis': 'KBM'
+}
+
 function getList() {
   const data = axios.get(`${baseUrl}/list`)
   .then((res) => {
@@ -67,7 +74,15 @@ async function post(soal) {
           soal.subMateri
         )
         length = length + 1
-        const mat = soal.mataPelajaran.substring(0,3).toUpperCase()  
+        let mat = ''
+        if(Object.keys(TPS).includes(soal.mataPelajaran)) {
+          mat = TPS[soal.mataPelajaran]
+        } else {
+          console.log(soal.mataPelajaran)
+          console.log(TPS[soal.mataPelajaran])
+          mat = soal.mataPelajaran.substring(0,3).toUpperCase()  
+        }
+          
         soal.kode = `${mat+num.data+length}`
       }
     console.log(soal)
