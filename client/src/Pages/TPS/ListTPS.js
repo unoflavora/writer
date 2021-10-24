@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import ListSoal from './ListSoal'
-import ListTryout from '../ListTryout'
+import ListTryout from './ListTryout'
 
 export default function List() {
   const [view, setView] = useState('Materi')
