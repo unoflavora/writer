@@ -146,6 +146,14 @@ function App() {
           } else {
             await Server.post(allData)
           }
+          setAllData({...allData,
+            kode: '',
+            soal: '',
+            tipeJawaban:'',
+            pilihanGanda: [],
+            jawaban: '',
+            pembahasan:'',
+          })
           setUploading(false)      
           setMessage({
             message: 'Berhasil mensubmit!',

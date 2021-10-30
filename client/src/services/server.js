@@ -74,17 +74,13 @@ async function post(soal) {
           soal.subMateri
         )
         length = length + 1
-        let mat = ''
-        if(Object.keys(TPS).includes(soal.mataPelajaran)) {
-          mat = TPS[soal.mataPelajaran]
-        } else {
-          console.log(soal.mataPelajaran)
-          console.log(TPS[soal.mataPelajaran])
-          mat = soal.mataPelajaran.substring(0,3).toUpperCase()  
-        }
-          
+        const mat = 
+          Object.keys(TPS).includes(soal.mataPelajaran) ?
+          TPS[soal.mataPelajaran]
+          : soal.mataPelajaran.substring(0,3).toUpperCase()  
         soal.kode = `${mat+num.data+length}`
       }
+      console.log(soal.mat)
     console.log(soal)
   } catch(e) {
     console.log(e)
