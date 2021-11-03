@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const SoalDB = require('../models/tryout')
-
+const SoalDB = require('../models/newTryout')
+const soal80 = require('./to')
 const TPS = {
   'Kemampuan Penalaran Umum': 'KPU',
   'Pengetahuan Kuantitatif': 'PK',
@@ -17,6 +17,79 @@ router.post('/all', (request, response) => {
     response.status(400).json(e)
   })
 })
+
+function encrypt(text, shift) {
+  let result = "";
+
+  //loop through each caharacter in the text
+  for (let i = 0; i < text.length; i++) {
+        
+      //get the character code of each letter
+      let c = text.charCodeAt(i);
+
+      // handle uppercase letters
+      if(c >= 65 && c <=  90) {
+          result += String.fromCharCode((c - 65 + shift) % 26 + 65); 
+
+      // handle lowercase letters
+      } else if(c >= 97 && c <= 122){
+          result += String.fromCharCode((c - 97 + shift) % 26 + 97);
+
+      // its not a letter, let it through
+      } else {
+          result += text.charAt(i);
+      }
+  }
+  return result;
+}
+
+function decrypt(text,shift){
+  let result = "";
+  shift = (26 - shift) % 26;
+  result = encrypt(text,shift);
+  return result;
+}  
+
+
+router.post('/updateDB', async (request, response) => {
+  try {
+    // const semuaSoalTO = await SoalDB.find({})
+    const semuaSoalTO = soal80
+    for(const soal of semuaSoalTO) {
+      const soalBaru = {...soal, 
+        jawaban: decrypt(soal.jawaban, 10),
+        try:0,
+        correct:0,
+        date: new Date(),
+        review: {
+          skor: 0,
+          total:0,
+          alasan:[]
+      }}
+      console.log(soalBaru)
+      const updatedSoal = new SoalDB({...soalBaru})
+      await updatedSoal.save()
+    }
+    const newTO = await SoalDB.find({})
+    console.log(newTO.length)
+    response.status(200).json(newTO)
+  } catch(e) {
+    response.status(400).json(e)
+    console.log(e)
+  }
+})
+
+router.delete('/updateDB', async (request, response) => {
+  try {
+    await SoalDB.deleteMany({})
+    const newTO = await SoalDB.find({})
+    response.status(200).json(newTO)
+  } catch(e) {
+    response.status(400).json(e)
+    console.log(e)
+  }
+})
+
 
 
 router.post('/soal', async (request, response) => {
